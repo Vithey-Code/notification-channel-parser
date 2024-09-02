@@ -54,3 +54,24 @@ static void ParseNotificationChannelsRegx(string notificationTitle)
     
     Console.WriteLine("[Regex] Receive channels: " + string.Join(", ", channels));
 }
+
+
+static void ParseNotificationChannelsSwitch(string notificationTitle)
+{
+    string[] tags = notificationTitle.Split(new[] { "[", "]" }, StringSplitOptions.RemoveEmptyEntries);
+    
+    var notificationChannels = tags
+        .Select(tag => tag switch
+        {
+            "BE" => "BE",
+            "FE" => "FE",
+            "QA" => "QA",
+            "Urgent" => "Urgent",
+            _ => null
+        })
+        .Where(channel => channel != null)
+        .ToList();
+
+    
+    Console.WriteLine("Receive channels: " + string.Join(", ", notificationChannels));
+}
